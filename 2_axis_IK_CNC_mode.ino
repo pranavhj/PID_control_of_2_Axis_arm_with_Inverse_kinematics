@@ -1,17 +1,17 @@
 const int stepPin_2 = 10; 
 const int dirPin_2= 11; 
+                                                       //STEPPER MOTOR PIN INITILIZATION
 
-
-const int stepPin_1 = 6;                          //8
-const int dirPin_1= 7;                              //9
+const int stepPin_1 = 6;                          
+const int dirPin_1= 7;                              
 
 const int led_Pin=13;
-int stepper(int, int, int, int);           // steps  speed  direction   motor
+int stepper(int, int, int, int);           // steps  speed  direction   which_motor           Function to control stepper motor with inputs as specified 
 
 double current_1=0;
 double current_2=0;
 
-double theta1=0, theta2=0;
+double theta1=0, theta2=0;                                    //Inverse Kinematics Initializations
 
 double line_x[200];
 double line_y[200];
@@ -21,7 +21,7 @@ void setup() {
   pinMode(stepPin_1,OUTPUT); 
   pinMode(dirPin_1,OUTPUT);
   pinMode(stepPin_2,OUTPUT); 
-  pinMode(dirPin_2,OUTPUT);
+  pinMode(dirPin_2,OUTPUT);                                        //Set up All Pins appropriately
   pinMode(led_Pin,OUTPUT);
 int m=0;
 Serial.begin(9600);
@@ -46,40 +46,44 @@ if(s=='q')
 digitalWrite(led_Pin,HIGH);}
 s='p';
 }
+ 
+ 
+//Statements written to control the robot directly from the serial monitor 
 
-if(s=='r')
+ 
+ if(s=='r')
 {for( int i=0; i<temp_steps; i++)
-{stepper(1,1500,1,0);
-digitalWrite(led_Pin,HIGH);}
+{stepper(1,1500,1,0);                                                //move stepper no 1 in step in anticlockwise_direction with speed 1500 
+digitalWrite(led_Pin,HIGH);}                                   
 s='p';
 }
 
 if(s=='s')
 {for( int i=0; i<temp_steps; i++)
- {stepper(1,1500,1,1);
+ {stepper(1,1500,1,1);                                       //move stepper no 2 1 step in anticlockwise_direction with speed 1500 
 digitalWrite(led_Pin,HIGH);}
 s='p';}
 
 if(s=='d')
 {for( int i=0; i<temp_steps; i++)
-  {stepper(1,1500,0,1);
+  {stepper(1,1500,0,1);                                       //move stepper no 2 1 step in clockwise_direction with speed 1500
 digitalWrite(led_Pin,HIGH);}
 s='p';}
 
 if(s=='z')
-{goto_func(370,0);
+{goto_func(370,0);                                           //go to co-ordinate (370,0) 
 s='p';}
 
 if(s=='x')
-{goto_func(0,-370);
+{goto_func(0,-370);                                          //go to co-ordinate (0,-370)
 s='p';}
 
 if(s=='f')
-{goto_func(260,260);
+{goto_func(260,260);                                        //go to co-ordinate (260,260)
 s='p';}
 
 if(s=='l')
-{draw_line(370,0,200,0);
+{draw_line(370,0,200,0);                                   //draw a straight line between points (370,0) and (200,0)                                   
 s='p';
 } 
 /*stepper(97,3000,1);
@@ -100,8 +104,8 @@ int stepper( int steps, int rpm, int rotn_direc, int motor)
 {int m=0;
 digitalWrite(dirPin_1,rotn_direc);
 digitalWrite(dirPin_2,rotn_direc);
-int temp=89;
-
+int temp=89;                                            //This function rotates the stepper motor precisely for n steps at rpm-speed in rotn_direction 
+                                                         //direction    
 if(motor==0)
 {temp=stepPin_1;
 if(rotn_direc==0)
@@ -130,7 +134,7 @@ while(m<steps)
 }
 
 
-int inv_kinematics(double x1, double y1)
+int inv_kinematics(double x1, double y1)                               //This function passes the Inverse kinematics angles of actuator to the program
 {  
  theta2=(acos(((x1*x1)+(y1*y1)-72148)/32376/2));
  theta1=(atan2(y1,x1)-atan2(228*sin(theta2),(142+(228*cos(theta2)))));         //getting values of joint angles
@@ -140,7 +144,7 @@ theta2=theta2*180/3.142;    theta1=theta1*180/3.142;
 
 
 
-int goto_func(int x , int y)
+int goto_func(int x , int y)                                   //This function moves the arm to given co-ordinates(x,y)
 
 {//double temp=0;
 //temp=(x*x)+(y*y);
@@ -174,7 +178,7 @@ while(1)
 
 
 int draw_line( double x1, double y1, double x2, double y2)
-{ double slope=0;
+{ double slope=0;                                                       //this function draws a line between (x1,y1)and (x2,y2)
   
    {slope=(y2-y1)/(x2-x1);}
   Serial.println(slope);
