@@ -5,3 +5,4 @@ Application of inverse kinematics using a 2 axis robotic arm
 a line can be drawn by using the function draw_line(x1,y1,x2,y2);
 from points (x1,y1) to (x2,y2) a circle can be drawn by using the function draw_circle(x,y,r); which draws a circle with center as (x,y) and radius r 
 We can position the end effecter accurately to any co-ordinate on the Machine by using the function goto_func(x,y)
+Future work shall include using a gcode interface to draw any shape.
